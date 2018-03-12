@@ -1,44 +1,49 @@
-import os, networkx, argparse, ipaddress, subprocess # TODO see how subprocess can assist with this
+import nmap, argparse, ipaddress
+import networkx as nx
+from multiprocessing import Process # TODO see how subprocess can assist with this
 
 ip_list = [] # list of all discovered IPs
 hostnames = [] # list of all discovered reverse DNS names
 
-def ip_scan(address): # ping each ip
-
-    a = os.system
-    try:
-        status = a('ping -c 1 -W 2 %s' % address)
-    except Exception, e:
-    	print e
-    print status
-
 def ipnetwork(network): # interpret network
 
-    ip = ipaddress.ip_network(unicode(network))
-    for i in ip:
-        try:
-            ip_scan(i)
-            ip_list.append(i)
+    nmScan = nmap.PortScanner()
+    ips = ipaddress.ip_network(unicode(network))
+    for ip in ips:
+	try:
+            nmScan.scan(str(ip),arguments='-n -sP -PE')
+	    state = nmScan[str(ip)].state()
+            if state == 'up':
+                ip_list.append(str(ip))
+	    else:
+		pass
         except Exception, e:
-            print e
+            continue
+    print "%d # of Hosts are up." % len(ip_list)
             
 def network_map(ip_list): # pump list of ips into function to map network
 
-    return
-
+    G = nx.Graph()
+    for ip in ip_list:
+        G.add_node(ip)
+    G.graph
+    
 def main():
+    global ip_list
 
-    parser = argparse.ArgumentParser('usage%prog ' '-h <Host Address> -n <IP range>')
-    parser.add_argument('-H', '--host', help='Please enter a host address')
+    parser = argparse.ArgumentParser('usage%prog ' '-n <IP range>')
     parser.add_argument('-n', '--network', help='Please enter a network range')
     args = parser.parse_args()
-    host = args.host
     network = args.network
 
-    if host == None and network:
-        ipnetwork(network)
+    if network == None:
+        print usage
+        exit(0)
+    else:
+        p = Process( target=ipnetwork,args=(network,))
+        p.start()
+        p.join()
 
-    if network == None and host:
-        ip_scan(host)
+    network_map(ip_list)
 
 main()
