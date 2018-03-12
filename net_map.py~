@@ -1,0 +1,15 @@
+import socket, networkx, argparse, ipaddress
+
+ip_list = [] # list of all discovered IPs
+hostnames = [] # list of all discovered reverse DNS names
+
+def ip_scan(address)
+
+	s = socket.socket()
+	try:
+		s.connect((address,))
+		print "Success"
+	except Exception, e:
+		print e
+
+ip_scan(10.0.0.1)
