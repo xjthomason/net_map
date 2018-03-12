@@ -1,4 +1,4 @@
-import os, networkx, argparse, ipaddress
+import os, networkx, argparse, ipaddress, subprocess # TODO see how subprocess can assist with this
 
 ip_list = [] # list of all discovered IPs
 hostnames = [] # list of all discovered reverse DNS names
@@ -7,7 +7,7 @@ def ip_scan(address): # ping each ip
 
     a = os.system
     try:
-        status = a('ping -c 1 %s' % address)
+        status = a('ping -c 1 -W 2 %s' % address)
     except Exception, e:
     	print e
     print status
