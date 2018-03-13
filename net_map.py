@@ -1,17 +1,18 @@
 import nmap, argparse, ipaddress
 import networkx as nx
 from multiprocessing import Process # TODO see how subprocess can assist with this
+from prettytable import PrettyTable
 
 ip_list = [] # list of all discovered IPs
-hostnames = [] # list of all discovered reverse DNS names
+ips_hostnames = PrettyTable(['IP','hostnames','OS']) # list of all discovered reverse DNS names
 
 def ipnetwork(network): # interpret network
 
-    nmScan = nmap.PortScanner()
     ips = ipaddress.ip_network(unicode(network))
     for ip in ips:
 	try:
-            nmScan.scan(str(ip),arguments='-n -sP -PE')
+            nmScan = nmap.PortScanner()
+            nmScan.scan(str(ip),arguments='-n -sP -PE -T4')
 	    state = nmScan[str(ip)].state()
             if state == 'up':
                 ip_list.append(str(ip))
@@ -19,8 +20,28 @@ def ipnetwork(network): # interpret network
 		pass
         except Exception, e:
             continue
+    
     print "%d # of Hosts are up." % len(ip_list)
-            
+
+    iphostname(ip_list)
+
+def iphostname(ip_list): # pull hostnames for list of IPs
+
+    for ip in ip_list:
+        try:
+            nmScan = nmap.PortScanner()
+            nmScan.scan(str(ip),arguments='-A -T4')
+            print nmScan[str(ip)]
+            print 'fuck'
+            hostname = nmScan[str(ip)]['hostnames']['name']
+            print 'you'
+            OS = nmScan['osmatch']['name']
+            print 'bitch'
+            ips_hostnames.add_row([ip, hostname, OS])
+        except Exception, e:
+            print e
+            continue
+        
 def network_map(ip_list): # pump list of ips into function to map network
 
     G = nx.Graph()
@@ -29,7 +50,6 @@ def network_map(ip_list): # pump list of ips into function to map network
     G.graph
     
 def main():
-    global ip_list
 
     parser = argparse.ArgumentParser('usage%prog ' '-n <IP range>')
     parser.add_argument('-n', '--network', help='Please enter a network range')
@@ -40,10 +60,10 @@ def main():
         print usage
         exit(0)
     else:
-        p = Process( target=ipnetwork,args=(network,))
+        p = Process(target=ipnetwork,args=(network,))
         p.start()
         p.join()
 
-    network_map(ip_list)
+    print ip_list
 
 main()
