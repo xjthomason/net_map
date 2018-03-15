@@ -1,2 +1,41 @@
-{'status': {'state': 'up', 'reason': 'reset'}, 'vendor': {}, 'addresses': {'ipv4': '10.0.8.1'}, 'tcp': {80: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}, 22: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}, 23: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}}, 'hostnames': [{'type': '', 'name': ''}], 'osmatch': [{'osclass': [{'osfamily': 'Virtualbox', 'vendor': 'Oracle', 'cpe': ['cpe:/o:oracle:virtualbox'], 'type': 'bridge', 'osgen': None, 'accuracy': '96'}], 'line': '86934', 'name': 'Oracle Virtualbox', 'accuracy': '96'}, {'osclass': [{'osfamily': 'QEMU', 'vendor': 'QEMU', 'cpe': ['cpe:/a:qemu:qemu'], 'type': 'general purpose', 'osgen': None, 'accuracy': '94'}], 'line': '88598', 'name': 'QEMU user mode network gateway', 'accuracy': '94'}], 'portused': [{'state': 'open', 'portid': '80', 'proto': 'tcp'}, {'state': 'closed', 'portid': '1', 'proto': 'tcp'}]}
+{'status': {'state': 'up', 'reason': 'reset'}, 
+'vendor': {}, 
+'addresses': {'ipv4': '10.0.8.1'}, 
+'tcp': {
+80: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}, 
+22: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}, 
+23: {'product': '', 'state': 'open', 'version': '', 'name': 'tcpwrapped', 'conf': '8', 'extrainfo': '', 'reason': 'syn-ack', 'cpe': ''}
+}, 
+'hostnames': [{'type': '', 'name': ''}], 
+'osmatch': [{'osclass': [{'osfamily': 'Virtualbox', 'vendor': 'Oracle', 'cpe': ['cpe:/o:oracle:virtualbox'], 'type': 'bridge', 'osgen': None, 'accuracy': '96'}], 
+'line': '86934', 
+'name': 'Oracle Virtualbox', 
+'accuracy': '96'}, 
+{'osclass': 
+[{'osfamily': 'QEMU', 'vendor': 'QEMU', 'cpe': ['cpe:/a:qemu:qemu'], 'type': 'general purpose', 'osgen': None, 'accuracy': '94'}], 
+'line': '88598', 'name': 'QEMU user mode network gateway', 'accuracy': '94'}], 
+'portused': 
+[{'state': 'open', 'portid': '80', 'proto': 'tcp'}, {'state': 'closed', 'portid': '1', 'proto': 'tcp'}]
+}
+
+status
+-------
+state
+reason
+
+
+vendor
+-------
+NULL
+
+
+addresses
+----------
+ipv4
+
+
+>>> results['scan'][ip]['hostnames']
+[{'type': '', 'name': ''}]
+>>> hostnames = results['scan'][ip]['hostnames']
+>>> print hostnames
 

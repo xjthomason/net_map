@@ -30,14 +30,11 @@ def iphostname(ip_list): # pull hostnames for list of IPs
     for ip in ip_list:
         try:
             nmScan = nmap.PortScanner()
-            nmScan.scan(str(ip),arguments='-A -T4')
-            print nmScan[str(ip)]
-            print 'fuck'
-            hostname = nmScan[str(ip)]['hostnames']['name']
-            print 'you'
-            OS = nmScan['osmatch']['name']
-            print 'bitch'
+            results = nmScan.scan(str(ip),arguments='-A -T4')
+            hostname = results['hostnames']['name']
+            OS = results['osmatch']['name']
             ips_hostnames.add_row([ip, hostname, OS])
+            print str(ip) + ', ' + hostname + ', ' + OS
         except Exception, e:
             print e
             continue
