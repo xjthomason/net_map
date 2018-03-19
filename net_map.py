@@ -60,6 +60,6 @@ def main():
         p.start()
         p.join()
 
-    print ip_hostnames
+    print ips_hostnames
 
 main()
