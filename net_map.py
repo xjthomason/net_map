@@ -10,24 +10,23 @@ a = os.system # clear screen after every progress update
 
 def ipnetwork(network): # interpret network
 
-    ips = ipaddress.ip_network(unicode(network))
-    for ip in ips:
-	try:
-            nmScan = nmap.PortScanner()
-            nmScan.scan(str(ip),arguments='-n -sP -PE -T4')
-	    state = nmScan[str(ip)].state()
-            if state == 'up':
-                ip_list.append(str(ip))
-	    else:
-		pass
-        except Exception, e:
-            continue
-        
-    
-    print "%d Hosts are up." % len(ip_list)
-    
-    progress_bar.printProgressBar(0, len(ip_list), prefix='Scanning %d of %d...\nProgress:' % (1,len(ip_list)), suffix='Complete', length=50) # initialize progress bar
-    iphostname(ip_list)
+	ips = ipaddress.ip_network(unicode(network))
+	for ip in ips:
+		try:
+			nmScan = nmap.PortScanner()
+			nmScan.scan(str(ip),arguments='-n -sP -PE -T4')
+			state = nmScan[str(ip)].state()
+			if state == 'up':
+				ip_list.append(str(ip))
+			else:
+				pass
+		except Exception, e:
+			continue
+
+	print "%d Hosts are up." % len(ip_list)
+
+	progress_bar.printProgressBar(0, len(ip_list), prefix='Scanning %d of %d...\nProgress:' % (1,len(ip_list)), suffix='Complete', length=50) # initialize progress bar
+	iphostname(ip_list)
 
 def iphostname(ip_list): # pull hostnames for list of IPs
 	
